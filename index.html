@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Game design portfolio of Chengyu Huang, featuring video games, board games, writing, and technical art."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Chengyu Huang — Game Designer" />
+    <meta
+      property="og:description"
+      content="Games, board games, writing, and technical art by Chengyu Huang."
+    />
+    <meta property="og:url" content="https://www.hcythepigeon.com/" />
+    <meta property="og:image" content="https://www.hcythepigeon.com/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chengyu Huang — Game Designer" />
+    <meta
+      name="twitter:description"
+      content="Games, board games, writing, and technical art by Chengyu Huang."
+    />
+    <meta name="twitter:image" content="https://www.hcythepigeon.com/og.png" />
+    <title>CY's Page</title>
+    <script>
+      // Resolve theme and language before first paint so the page never flashes.
+      (function () {
+        var root = document.documentElement;
+        var mode = "system";
+        var lang = "";
+        try {
+          mode = localStorage.getItem("portfolio-theme-mode") || "system";
+          lang = localStorage.getItem("portfolio-language") || "";
+        } catch (error) {
+          // Storage can be blocked; fall back to system preferences.
+        }
+        if (mode !== "dark" && mode !== "light") mode = "system";
+        var theme = mode === "system" ? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark") : mode;
+        if (lang !== "en" && lang !== "zh") {
+          lang = /^zh\b/i.test((navigator.languages && navigator.languages[0]) || navigator.language || "") ? "zh" : "en";
+        }
+        root.dataset.themeMode = mode;
+        root.dataset.theme = theme;
+        root.dataset.lang = lang;
+        root.lang = lang === "zh" ? "zh-CN" : "en";
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,500..900;1,62..125,500..900&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/styles.css?v=graphic-20260927-8" />
+    <link rel="stylesheet" href="./src/graphic.css?v=graphic-20260927-8" />
+  </head>
+  <body>
+    <canvas id="foil-canvas" aria-hidden="true"></canvas>
+
+    <div class="hud">
+      <button class="hud-button lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+        <span class="lang-option" data-lang-option="en">EN</span>
+        <span class="lang-option" data-lang-option="zh" lang="zh-CN">中</span>
+      </button>
+      <button class="hud-button theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">
+        <span class="theme-toggle-icon" aria-hidden="true">
+          <svg class="theme-icon theme-icon--system" viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="8.5" />
+            <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" />
+          </svg>
+          <svg class="theme-icon theme-icon--dark" viewBox="0 0 24 24" focusable="false">
+            <path d="M19.5 14.8A8 8 0 0 1 9.2 4.5a8 8 0 1 0 10.3 10.3z" />
+          </svg>
+          <svg class="theme-icon theme-icon--light" viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="4.2" />
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" />
+          </svg>
+        </span>
+        <span class="theme-toggle-text">System</span>
+      </button>
+    </div>
+
+    <div class="opening" id="opening" aria-hidden="true">
+      <canvas class="opening-scene"></canvas>
+      <canvas class="opening-overlay"></canvas>
+      <p class="opening-skip" data-zh="点击任意处或按任意键跳过">Click or press any key to skip</p>
+    </div>
+    <div class="opening-sweep" aria-hidden="true"></div>
+
+    <main id="app">
+      <section
+        class="pack-stage"
+        data-stage="sealed"
+        aria-label="Game designer booster pack"
+        data-zh-aria-label="游戏设计师补充包"
+      >
+        <div class="stage-copy">
+          <p class="kicker" data-zh="打开补充包！">Open The Booster!</p>
+          <h1 data-zh="看看里面有什么">See what's inside</h1>
+        </div>
+
+        <div class="stage-focus" id="stageFocus">
+          <div class="stage-sigil" data-art="sigil" aria-hidden="true"></div>
+
+          <div class="pack-zone" id="packZone">
+            <div class="pack-shell" id="packShell">
+              <div class="pack-rip">
+                <button
+                  class="pack-strip"
+                  id="tearHandle"
+                  type="button"
+                  aria-label="Drag to tear open the booster pack"
+                  data-zh-aria-label="拖动撕开补充包"
+                  data-zh="撕开这里"
+                >Tear here</button>
+              </div>
+              <div class="pack-card-edge" aria-hidden="true"></div>
+              <div class="pack">
+                <canvas class="pack-foil-shader" aria-hidden="true"></canvas>
+                <div class="pack-shine" aria-hidden="true"></div>
+                <div class="pack-brand">Core 2026</div>
+                <div class="pack-label">
+                  <div class="pack-title" data-zh="游戏设计师补充包">Game Designer Booster</div>
+                  <div class="pack-subtitle" data-zh="内含 1 张游戏设计师卡">Contains 1 game designer card</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <article
+            class="profile-card"
+            id="profileCard"
+            role="button"
+            tabindex="0"
+            aria-label="Flip Chengyu Huang's profile card"
+            aria-pressed="false"
+            data-flipped="false"
+          >
+            <div class="profile-card-inner">
+              <div class="card-face card-back" aria-hidden="true">
+                <canvas class="card-paint" data-paint="back"></canvas>
+                <div class="card-back-sigil" data-art="back-sigil"></div>
+                <div class="card-foil" aria-hidden="true"></div>
+                <div class="card-back-frame">
+                  <span class="back-code">GDC</span>
+                  <span class="back-title" data-zh="点击翻开">Click to Reveal</span>
+                </div>
+              </div>
+
+              <div class="card-face card-front">
+                <div class="card-frame">
+                  <div class="portrait-window">
+                    <canvas class="card-paint" data-paint="portrait"></canvas>
+                    <div class="portrait-mark" aria-hidden="true">CY</div>
+                  </div>
+                  <div class="card-meta">
+                    <span>NYU2026</span>
+                    <span class="card-meta-rarity" data-zh="稀有">Rare</span>
+                  </div>
+                  <div class="profile-text">
+                    <p class="profile-name">Chengyu Huang</p>
+                    <p class="profile-role" data-zh="设计师 / 程序员 / 技术美术">Designer / Programmer / Tech Artist</p>
+                    <p class="profile-tools">Unity / Unreal</p>
+                    <p class="tagline">NYU 2026</p>
+                  </div>
+                </div>
+                <div class="card-foil" aria-hidden="true"></div>
+                <div class="foil-stars" aria-hidden="true"></div>
+                <div class="foil-beam" aria-hidden="true"></div>
+                <div class="card-glare" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="flip-particles" aria-hidden="true"></div>
+          </article>
+        </div>
+
+        <button class="primary-action" id="tearButton" type="button">
+          <span data-zh="打开卡包">Open Pack</span>
+          <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <aside class="binder-peek" id="binderPeek" aria-label="Project binder" data-zh-aria-label="项目卡册">
+          <div class="binder-spine" data-zh="作品集">Portfolio</div>
+          <div class="binder-cover">
+            <p>Chengyu Huang</p>
+            <h2 data-zh="项目卡册">Project Binder</h2>
+            <p class="binder-hover-hint" data-zh="把光标移出卡牌，就能查看项目">Move your cursor off the card to view projects</p>
+            <button class="secondary-action" id="openBinderButton" type="button" data-zh="查看项目">View Projects</button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="binder-stage" id="binderStage" aria-label="Project binder" data-zh-aria-label="项目卡册">
+        <nav class="binder-tabs" id="binderTabs" aria-label="Portfolio sections" data-zh-aria-label="作品分类"></nav>
+
+        <div class="binder-layout">
+          <div class="binder-left">
+            <span class="section-number" id="sectionNumber" aria-hidden="true">01</span>
+            <p class="binder-label" data-zh="作品收藏">Portfolio Collection</p>
+            <h2 id="sectionTitle">Writing</h2>
+            <p id="sectionDescription">A selection of game design writing and analysis.</p>
+            <div class="binder-controls">
+              <button
+                class="icon-button"
+                id="prevSection"
+                type="button"
+                aria-label="Previous page"
+                data-zh-aria-label="上一页"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4 7 12l8 8" /></svg>
+              </button>
+              <span class="page-indicator" id="pageIndicator"></span>
+              <button
+                class="icon-button"
+                id="nextSection"
+                type="button"
+                aria-label="Next page"
+                data-zh-aria-label="下一页"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 4 8 8-8 8" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="binder-page-wrap">
+            <div class="binder-sheet">
+              <div class="binder-rings" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="binder-page" id="binderPage"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="card-dialog" id="cardDialog">
+      <button
+        class="dialog-close"
+        id="closeDialog"
+        type="button"
+        aria-label="Close project details"
+        data-zh-aria-label="关闭项目详情"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+      <div class="dialog-card" id="dialogCard"></div>
+    </dialog>
+
+    <div class="page-wipe" aria-hidden="true">
+      <div class="wipe-band">
+        <div class="wipe-stripe"></div>
+        <div class="wipe-core">
+          <span class="wipe-number"></span>
+          <span class="wipe-title"></span>
+        </div>
+        <div class="wipe-tail"></div>
+      </div>
+    </div>
+
+    <script>
+      window.__portfolioErrors = [];
+      window.addEventListener("error", (event) => {
+        window.__portfolioErrors.push(event.message);
+      });
+      window.addEventListener("unhandledrejection", (event) => {
+        window.__portfolioErrors.push(String(event.reason));
+      });
+    </script>
+    <script type="module" src="./src/app.js?v=graphic-20260927-8"></script>
+  </body>
+</html>
