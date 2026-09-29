@@ -1,0 +1,1091 @@
+/* =========================================================================
+   Graphic-realism look — layered over the shared base in styles.css.
+   Printed matter: spot inks on paper stock, thick ink rules, crop and
+   registration marks, trading-card frames and hard cast shadows.
+   ========================================================================= */
+
+:root {
+  --bg: #13110e;
+  --ink: #f1e7d0;
+  --muted: rgba(241, 231, 208, 0.74);
+  --faint: rgba(241, 231, 208, 0.48);
+  --line: rgba(241, 231, 208, 0.2);
+  --line-strong: rgba(241, 231, 208, 0.6);
+  --glass: rgba(19, 17, 14, 0.86);
+  --glass-strong: rgba(19, 17, 14, 0.95);
+  --page: #1c1915;
+  --page-2: #221e19;
+  --hot: #ff5a3d;
+  --amber: #eaa91d;
+  --gold: #eaa91d;
+  --teal: #1bb3a1;
+  --mint: #1bb3a1;
+  --cyan: #3a8cf0;
+  --blue: #4a78f0;
+  --violet: #8a5cf0;
+  --green: #72b032;
+  --paper: #f3ead6;
+  --stock: #f3ead6;
+  --print-ink: #16120e;
+  --cast: rgba(0, 0, 0, 0.9);
+}
+
+:root[data-theme="light"] {
+  --bg: #ebe1c8;
+  --ink: #16120e;
+  --muted: rgba(22, 18, 14, 0.74);
+  --faint: rgba(22, 18, 14, 0.5);
+  --line: rgba(22, 18, 14, 0.2);
+  --line-strong: #16120e;
+  --glass: rgba(243, 234, 214, 0.9);
+  --glass-strong: rgba(243, 234, 214, 0.97);
+  --page: #f3ead5;
+  --page-2: #efe4cc;
+  --hot: #e5452d;
+  --amber: #c98a0c;
+  --gold: #c98a0c;
+  --teal: #12897b;
+  --mint: #12897b;
+  --cyan: #2f5fd0;
+  --blue: #3563e0;
+  --violet: #6a3fd0;
+  --green: #4f8a1c;
+  --paper: #f7f0de;
+  --cast: rgba(22, 18, 14, 0.92);
+}
+
+body,
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(circle, rgba(128, 110, 80, 0.14) 1px, transparent 1.6px) 0 0 / 6px 6px,
+    var(--bg);
+}
+
+/* ---------- HUD and controls: printed, square, ruled ---------- */
+
+.hud-button,
+.tab-button,
+.icon-button,
+.dialog-close {
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--glass);
+  box-shadow: none;
+  clip-path: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.hud-button:hover,
+.tab-button:hover,
+.icon-button:hover:not(:disabled),
+.dialog-close:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.lang-option.is-active {
+  background: var(--hot);
+  color: #fff8ec;
+}
+
+.tab-button[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.tab-index {
+  color: var(--hot);
+}
+
+:is(.hud-button, .primary-action, .secondary-action, .tab-button, .icon-button, .case-link, .dialog-close, .pack-strip):focus-visible {
+  outline: 3px solid var(--hot);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.primary-action,
+.secondary-action,
+.case-link {
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  clip-path: none;
+  box-shadow: 0.45rem 0.45rem 0 var(--hot);
+}
+
+.primary-action:hover,
+.secondary-action:hover,
+.case-link:hover {
+  filter: none;
+  transform: translate(-2px, -2px);
+  box-shadow: 0.65rem 0.65rem 0 var(--hot);
+}
+
+.primary-action::after,
+.secondary-action::after,
+.case-link::after {
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 45%, transparent 60%);
+}
+
+.case-link.disabled {
+  border-style: dashed;
+  box-shadow: none;
+}
+
+/* The store button is printed in the spot ink, with an ink shadow. */
+.store-link {
+  border-color: var(--ink);
+  background: var(--hot);
+  color: #fff8ec;
+  box-shadow: 0.45rem 0.45rem 0 var(--ink);
+}
+
+.store-link:hover {
+  box-shadow: 0.65rem 0.65rem 0 var(--ink);
+}
+
+/* ---------- Headline: ink with a misregistered spot plate ---------- */
+
+.kicker,
+.binder-label {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.kicker::before,
+.binder-label::before {
+  content: "FIG.01";
+  width: auto;
+  height: auto;
+  padding: 0.28rem 0.4rem;
+  border: 1.5px solid currentColor;
+  background: none;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+}
+
+.binder-label::before {
+  content: "PLATE";
+}
+
+h1,
+:root[data-theme="light"] h1 {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: var(--ink);
+  filter: none;
+  text-shadow: 0.04em 0.035em 0 var(--hot);
+}
+
+.stage-copy::after {
+  width: 10rem;
+  height: 7px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 18px, transparent 18px 23px);
+  transform: none;
+}
+
+@keyframes slashIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Printer's marks around the pack ---------- */
+
+.stage-sigil {
+  width: calc(var(--pack-width) * 1.9);
+  color: var(--ink);
+}
+
+.print-marks {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.print-lines path,
+.print-target circle,
+.print-target path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.print-bar--0 {
+  fill: var(--print-ink);
+}
+
+.print-bar--1 {
+  fill: var(--hot);
+}
+
+.print-bar--2 {
+  fill: var(--blue);
+}
+
+.print-bar--3 {
+  fill: var(--gold);
+}
+
+.print-bar--4 {
+  fill: var(--teal);
+}
+
+.print-bar--5 {
+  fill: var(--paper);
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.print-captions text {
+  fill: currentColor;
+  font: 700 16px var(--display);
+  letter-spacing: 0.3em;
+}
+
+.print-lines,
+.print-bars,
+.print-captions {
+  opacity: 0;
+}
+
+body.intro-ready .print-lines {
+  --to: 0.85;
+  animation: fadeTo 900ms ease 500ms forwards;
+}
+
+body.intro-ready .print-bars {
+  --to: 1;
+  animation: fadeTo 700ms ease 1300ms forwards;
+}
+
+body.intro-ready .print-captions {
+  --to: 0.8;
+  animation: fadeTo 900ms ease 1600ms forwards;
+}
+
+/* ---------- Booster pack: printed wrapper over a live plate ---------- */
+
+.pack-shell,
+:root[data-theme="light"] .pack-shell {
+  filter: drop-shadow(0.9rem 1.1rem 0 var(--cast));
+}
+
+.pack {
+  background: var(--stock);
+}
+
+.pack::after {
+  height: 6.5%;
+  background:
+    repeating-linear-gradient(90deg, #16120e 0 2px, transparent 2px 5px),
+    var(--stock);
+}
+
+.pack::after {
+  border-top: 2px solid #16120e;
+}
+
+.pack-shine {
+  mix-blend-mode: soft-light;
+  opacity: 0.5;
+}
+
+.pack-brand {
+  color: #16120e;
+  text-shadow: 0.045em 0.04em 0 #e5452d;
+}
+
+.pack-label {
+  border-top: 0;
+  border-left: 0.45rem solid #e5452d;
+  background: #16120e;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.pack-strip {
+  border: 2px solid #16120e;
+  clip-path: none;
+}
+
+.pack-strip:hover,
+.pack-stage.is-dragging .pack-strip {
+  background: #e5452d;
+  color: #fff8ec;
+}
+
+.pack-rip {
+  --pack-print:
+    repeating-linear-gradient(90deg, #16120e 0 2px, transparent 2px 5px),
+    #f3ead6;
+}
+
+.pack-card-edge {
+  border: 2px solid #16120e;
+  background:
+    repeating-linear-gradient(45deg, rgba(22, 18, 14, 0.18) 0 2px, transparent 2px 8px),
+    #f3ead6;
+  box-shadow: none;
+}
+
+/* ---------- Profile card: printed stock ---------- */
+
+.card-face {
+  border: 3px solid #16120e;
+  background: var(--stock);
+  box-shadow: 0.9rem 1.1rem 0 var(--cast);
+}
+
+.card-back .card-paint {
+  inset: 0;
+}
+
+.card-back-sigil .back-frame {
+  stroke: #f3ead6;
+  stroke-width: 1.6;
+  opacity: 0.95;
+}
+
+.card-back-sigil .back-frame--inner {
+  opacity: 0.5;
+}
+
+.back-crosses path,
+.back-crosses circle {
+  fill: none;
+  stroke: #f3ead6;
+  stroke-width: 1.4;
+}
+
+.back-code {
+  color: #f3ead6;
+  text-shadow: 0.05em 0.045em 0 #e5452d;
+}
+
+.back-title {
+  border: 2px solid #16120e;
+  background: #f3ead6;
+  color: #16120e;
+  clip-path: none;
+}
+
+.card-back .card-foil {
+  opacity: 0.2;
+}
+
+.card-frame {
+  color: #16120e;
+}
+
+.card-frame::after {
+  inset: 7px;
+  border: 1.5px solid #16120e;
+  border-radius: 6px;
+}
+
+.portrait-window {
+  inset: 3.1rem 0.95rem 38% 0.95rem;
+  border: 2px solid #16120e;
+  overflow: hidden;
+}
+
+.portrait-window::after {
+  display: none;
+}
+
+.portrait-mark {
+  top: auto;
+  bottom: 0.4rem;
+  left: 0.8rem;
+  right: auto;
+  text-align: left;
+  font-size: clamp(3.4rem, 12vw, 5.6rem);
+  color: #f3ead6;
+  mix-blend-mode: normal;
+  text-shadow: 0.05em 0.045em 0 #16120e;
+}
+
+.card-meta {
+  top: 1.05rem;
+  color: #16120e;
+}
+
+.card-meta-rarity {
+  border: 1.5px solid #16120e;
+  background: #c98a0c;
+  color: #16120e;
+  clip-path: none;
+}
+
+.profile-text {
+  bottom: 1.15rem;
+}
+
+.profile-name {
+  color: #e5452d;
+}
+
+.profile-role {
+  color: #16120e;
+  text-shadow: none;
+}
+
+.profile-text .profile-tools,
+.profile-text .tagline {
+  color: rgba(22, 18, 14, 0.74);
+}
+
+.profile-text .tagline {
+  color: #16120e;
+}
+
+.card-front .card-foil {
+  mix-blend-mode: multiply;
+  opacity: 0.12;
+}
+
+.foil-stars {
+  mix-blend-mode: multiply;
+  opacity: 0.22;
+}
+
+.card-glare {
+  mix-blend-mode: soft-light;
+  opacity: 0.5;
+}
+
+/* ---------- Binder peek ---------- */
+
+.binder-peek {
+  filter: drop-shadow(0.6rem 0.7rem 0 var(--cast));
+}
+
+.binder-spine {
+  border: 2px solid var(--ink);
+  border-right: 0;
+  background: var(--hot);
+}
+
+.binder-cover {
+  border: 2px solid var(--ink);
+  background: var(--page);
+  clip-path: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.binder-cover::before {
+  inset: 0.45rem;
+  border: 1px solid var(--line-strong);
+}
+
+.binder-cover p {
+  color: var(--hot);
+}
+
+/* ---------- Binder: an info plate and sleeves floating on the scene ---------- */
+
+.binder-stage,
+:root[data-theme="light"] .binder-stage {
+  background: none;
+}
+
+.binder-layout {
+  gap: clamp(1.4rem, 3vw, 2.6rem);
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+@keyframes spreadIn {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.binder-left,
+:root[data-theme="light"] .binder-left {
+  align-self: start;
+  border: 2.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--page);
+  box-shadow: 0.7rem 0.8rem 0 var(--cast);
+  overflow: visible;
+}
+
+/* Crop marks at the info plate's corners. */
+.binder-left::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--ink), var(--ink)) left top / 12px 1.5px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) left top / 1.5px 12px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right top / 12px 1.5px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right top / 1.5px 12px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) left bottom / 12px 1.5px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) left bottom / 1.5px 12px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right bottom / 12px 1.5px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right bottom / 1.5px 12px no-repeat;
+}
+
+.binder-left {
+  padding-bottom: 6.4rem;
+}
+
+.section-number {
+  right: 1.1rem;
+  bottom: 0.9rem;
+  z-index: 0;
+  font-size: 5.4rem;
+  -webkit-text-stroke: 1.5px var(--ink);
+  opacity: 0.9;
+}
+
+.binder-left h2::after {
+  height: 7px;
+  background: var(--section-color, var(--hot));
+  transform: none;
+}
+
+.binder-page-wrap,
+:root[data-theme="light"] .binder-page-wrap {
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.binder-page {
+  background: none;
+}
+
+.binder-page::before,
+.binder-page::after {
+  border-color: var(--ink);
+}
+
+.binder-rings {
+  left: -1.9rem;
+}
+
+.binder-rings span {
+  border: 2px solid var(--print-ink);
+  background: linear-gradient(180deg, #f3ead6 0 45%, #b7ab92 45% 100%);
+  box-shadow: 0.2rem 0.25rem 0 var(--cast);
+}
+
+/* Sleeves: ink outline and two flat comic shine bars. */
+.pocket::before,
+:root[data-theme="light"] .pocket::before {
+  inset: -7px -7px -9px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper) 14%, transparent);
+  box-shadow: inset 0 1.1rem 0 -1rem var(--ink);
+}
+
+.pocket::after {
+  inset: -7px -7px -9px;
+  border-radius: 10px;
+  background: linear-gradient(118deg, transparent 17%, rgba(255, 255, 255, 0.5) 17% 20%, transparent 20% 23.5%, rgba(255, 255, 255, 0.34) 23.5% 25%, transparent 25%);
+}
+
+.pocket.is-empty::before {
+  border-style: dashed;
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ink) 14%, transparent) 0 2px, transparent 2px 10px);
+}
+
+/* ---------- Project cards: classic trading-card frame ---------- */
+
+.binder-card {
+  display: grid;
+  grid-template-areas:
+    "copy"
+    "art"
+    "type"
+    "tags";
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  border: 2.5px solid #16120e;
+  border-radius: 9px;
+  background: #f3ead6;
+  color: #16120e;
+  box-shadow: 0.45rem 0.55rem 0 var(--cast);
+}
+
+.binder-card:hover {
+  box-shadow: 0.8rem 1rem 0 var(--cast);
+}
+
+.binder-card::before,
+.binder-card::after {
+  display: none;
+}
+
+.card-art {
+  position: relative;
+  inset: auto;
+  grid-area: art;
+  min-height: 0;
+  overflow: hidden;
+  border: 2px solid #16120e;
+}
+
+.card-art > * {
+  position: absolute;
+  inset: 0;
+}
+
+.card-copy {
+  grid-area: copy;
+  gap: 0.18rem;
+  margin: 0;
+  padding: 0.3rem 0.35rem 0.35rem;
+  border: 2px solid #16120e;
+  background: #fbf5e6;
+}
+
+.card-copy strong {
+  color: #16120e;
+  font-size: clamp(0.95rem, 9.5cqi, 1.7rem);
+  text-shadow: none;
+}
+
+.card-copy span {
+  color: color-mix(in srgb, var(--accent) 60%, #16120e);
+  font-size: clamp(0.6rem, 4.2cqi, 0.78rem);
+}
+
+.card-topline {
+  grid-area: type;
+  padding: 0.15rem 0.1rem 0.25rem;
+  border-bottom: 1.5px solid #16120e;
+  color: #16120e;
+}
+
+.tag-row {
+  grid-area: tags;
+  margin: 0;
+}
+
+.tag-row span {
+  border-color: #16120e;
+  background: none;
+  color: #16120e;
+}
+
+.rarity-shader {
+  mix-blend-mode: multiply;
+}
+
+.rarity-uncommon .rarity-shader,
+.rarity-rare .rarity-shader,
+.rarity-mythic .rarity-shader,
+.binder-card[data-edition="polychrome"] .rarity-shader,
+.binder-card[data-edition="laser"] .rarity-shader {
+  opacity: 0.14;
+}
+
+.rarity-rare .rarity-foil,
+.rarity-mythic .rarity-foil {
+  mix-blend-mode: multiply;
+  opacity: 0.08;
+}
+
+.rarity-mythic .rarity-sparkle {
+  mix-blend-mode: multiply;
+  opacity: 0.25;
+}
+
+.rarity-label {
+  border: 1.5px solid #16120e;
+  background: #f3ead6;
+  color: #16120e;
+  clip-path: none;
+}
+
+.rarity-uncommon .rarity-label {
+  background: #d6d0c2;
+}
+
+.rarity-rare .rarity-label {
+  background: #e1a119;
+}
+
+.rarity-mythic .rarity-label {
+  background: #e5452d;
+  color: #fff8ec;
+}
+
+/* ---------- Detail dialog: a printed spread ---------- */
+
+.card-dialog {
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--page);
+  box-shadow: 1rem 1.2rem 0 var(--cast);
+}
+
+.detail-hero {
+  border-right: 3px solid var(--ink);
+  background: #f3ead6;
+}
+
+.detail-hero::before {
+  display: none;
+}
+
+.detail-hero::after {
+  inset: 8px;
+  border: 1.5px solid #16120e;
+  border-radius: 0;
+}
+
+.detail-heading {
+  padding: 1rem 1.2rem 1.1rem;
+  border-left: 0.5rem solid var(--hot);
+  background: #16120e;
+  color: #f3ead6;
+}
+
+.detail-heading p {
+  color: #e1a119;
+}
+
+.detail-heading h2 {
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  text-shadow: none;
+}
+
+.detail-heading span {
+  color: #f3ead6;
+}
+
+.detail-body p:first-child {
+  color: var(--ink);
+}
+
+.detail-tags span,
+:root[data-theme="light"] .detail-tags span {
+  color: var(--ink);
+}
+
+/* ---------- The full-screen page wipe ---------- */
+
+.page-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wipe-band {
+  --wipe-spot: #e5452d;
+  --wipe-shade: #7d2116;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 16% minmax(0, 1fr) 7%;
+  visibility: hidden;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.wipe-band.is-active {
+  visibility: visible;
+}
+
+.wipe-tail {
+  order: 0;
+  background: radial-gradient(circle, #16120e 34%, transparent 36%) 0 0 / 16px 16px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000);
+  mask-image: linear-gradient(90deg, transparent, #000);
+}
+
+.wipe-core {
+  order: 1;
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1vmin;
+  background: #16120e;
+  color: #f3ead6;
+}
+
+.wipe-core::before,
+.wipe-core::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1.2vmin;
+  background: var(--wipe-spot);
+}
+
+.wipe-core::before {
+  left: 8%;
+}
+
+.wipe-core::after {
+  right: 22%;
+  width: 0.4vmin;
+  background: #f3ead6;
+}
+
+.wipe-stripe {
+  order: 2;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(22, 18, 14, 0.35) 22px 24px),
+    var(--wipe-spot);
+}
+
+.wipe-band[data-direction="prev"] {
+  grid-template-columns: 7% minmax(0, 1fr) 16%;
+}
+
+.wipe-band[data-direction="prev"] .wipe-stripe {
+  order: 0;
+}
+
+.wipe-band[data-direction="prev"] .wipe-tail {
+  order: 2;
+  -webkit-mask-image: linear-gradient(270deg, transparent, #000);
+  mask-image: linear-gradient(270deg, transparent, #000);
+}
+
+.wipe-number {
+  font-family: var(--display);
+  font-size: 42vmin;
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 0.5vmin var(--wipe-spot);
+}
+
+.wipe-title {
+  max-width: 60vmin;
+  font-family: var(--display);
+  font-size: 7vmin;
+  font-stretch: 70%;
+  font-weight: 900;
+  line-height: 0.95;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Opening: one cube, four beats (src/opening.js) ---------- */
+
+.opening {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  /* Safety net: never trap the page if the script fails to load. */
+  animation: openingFailsafe 400ms ease 16s forwards;
+}
+
+.opening.is-done {
+  display: none;
+}
+
+.opening.is-leaving {
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+@keyframes openingFailsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Crop marks at the corners of the screen. */
+.opening::after {
+  content: "";
+  position: absolute;
+  inset: 1.2rem;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--ink), var(--ink)) left top / 30px 2px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) left top / 2px 30px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right top / 30px 2px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right top / 2px 30px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) left bottom / 30px 2px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) left bottom / 2px 30px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right bottom / 30px 2px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) right bottom / 2px 30px no-repeat;
+  opacity: 0;
+}
+
+.opening.is-playing::after {
+  --to: 1;
+  animation: fadeTo 900ms ease 200ms forwards;
+}
+
+.opening-scene,
+.opening-overlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.opening-overlay {
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* The scene fades up from the paper once its first frame is drawn. */
+.opening-scene {
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.opening-scene.is-live {
+  opacity: 1;
+}
+
+.opening-skip {
+  position: absolute;
+  left: 50%;
+  bottom: 2.2rem;
+  z-index: 3;
+  margin: 0;
+  color: var(--faint);
+  font: 600 0.72rem/1 var(--display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  translate: -50% 0;
+}
+
+.opening.is-playing .opening-skip {
+  --to: 1;
+  animation: fadeTo 600ms ease 1200ms forwards;
+}
+
+/* The ink band that sweeps the opening away downward: it enters from above
+   the screen, dots trailing and vermilion leading, and app.js cuts the
+   opening away along its middle. */
+.opening-sweep {
+  --wipe-spot: #e5452d;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1310;
+  height: 38vh;
+  pointer-events: none;
+  visibility: hidden;
+  background: linear-gradient(
+    to bottom,
+    transparent 0 30%,
+    #16120e 30% 76%,
+    #f3ead6 76% 77.2%,
+    #16120e 77.2% 82%,
+    var(--wipe-spot) 82% 100%
+  );
+  transform: translateY(-100%);
+  will-change: transform;
+}
+
+.opening-sweep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: radial-gradient(circle, #16120e 34%, transparent 36%) 0 0 / 16px 16px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+}
+
+.opening-sweep.is-active {
+  visibility: visible;
+}
+
+/* ---------- Language ---------- */
+
+:root[lang^="zh"] .wipe-title {
+  letter-spacing: 0.12em;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 900px) {
+  .binder-left {
+    align-self: stretch;
+    padding-bottom: 1rem;
+  }
+
+  .section-number {
+    display: none;
+  }
+
+  .binder-rings {
+    left: 12%;
+    top: -1.9rem;
+  }
+
+  .binder-rings span {
+    background: linear-gradient(90deg, #f3ead6 0 45%, #b7ab92 45% 100%);
+  }
+}
+
+@media (max-width: 760px) {
+  .card-dialog {
+    border-width: 2px;
+  }
+
+  .detail-hero {
+    border-right: 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .binder-card {
+    padding: 0.4rem;
+    gap: 0.3rem;
+  }
+
+  .binder-left {
+    box-shadow: 0.45rem 0.5rem 0 var(--cast);
+  }
+
+  .binder-left::before {
+    display: none;
+  }
+
+  .stage-sigil {
+    width: calc(var(--pack-width) * 1.75);
+  }
+}
